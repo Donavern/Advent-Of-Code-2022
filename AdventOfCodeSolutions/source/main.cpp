@@ -7,11 +7,14 @@
 #include <sstream>
 #include <string>
 #include <algorithm>
+#include <map>
+#include <set>
 
 #include "../include/day1.h"
 #include "../include/day2.h"
+#include "../include/day3.h"
 
 int main()
 {
-	day2();
+	day3();
 }
