@@ -2,26 +2,42 @@ enum class day3Info
 {
 };
 
-int calculateDay3(std::string& first,std::string& second, 
-	std::set<char>& firstMap,std::set<char>& secondMap,
-	std::map<char,int>& priorities)
+int calculateDay3(std::string& first,std::string& second, std::string& third,
+	std::map<char,int>& uniqueMap, std::map<char,int>& priorities)
 {
-	//Add all left side letters first
+	//Add unique letters from first string to the set only once
 	for (char c : first)
 	{
-		firstMap.insert(c);
-	}
-
-	//Find the first letter in right side that exists in left
-	for (char c : second)
-	{
-		//Found existing
-		if (firstMap.count(c) != 0)
+		if (uniqueMap.find(c) == uniqueMap.end())
 		{
-			return priorities.find(c)->second;
+			uniqueMap.emplace(std::pair<char,int>(c,1));
 		}
 	}
-	return 0;
+
+	//Add unique letters from second string to the set only once
+	for (char c : second)
+	{
+		if (uniqueMap.find(c) != uniqueMap.end() && uniqueMap.find(c)->second == 1)
+		{
+			uniqueMap.find(c)->second = 2;
+		}
+	}
+
+	for (char c : third)
+	{
+		if (uniqueMap.find(c) != uniqueMap.end() && uniqueMap.find(c)->second == 2)
+		{
+			uniqueMap.find(c)->second = 3;
+		}
+	}
+
+	//find the only char that has 3
+	char c = std::max_element(uniqueMap.begin(), uniqueMap.end(),
+		[](const std::pair<char, int>& lhs, const std::pair<char, int>& rhs) {
+			return lhs.second < rhs.second; })->first;
+
+	uniqueMap.clear();
+	return priorities.find(c)->second;
 }
 
 void day3()
@@ -48,23 +64,34 @@ void day3()
 
 	//Init data
 	std::string line{};
-	std::string firstCompartment{}, secondCompartment{};
-	std::set<char> firstCompartmentLetters, secondCompartmentLetters;
+	std::string firstBag{}, secondBag{}, thirdBag{};
+	std::map<char,int> uniqueMap;
 	int prioritySum{};
+	int patternCounter{0};
 
 	//Main code
 	while (std::getline(input,line))
 	{
 		std::istringstream iss(line);
-		int lengthOfString = iss.str().length();
-		firstCompartment = iss.str().substr(0, lengthOfString / 2);
-		secondCompartment = iss.str().substr(lengthOfString / 2);
+		++patternCounter;
 
-		prioritySum+=calculateDay3(firstCompartment, secondCompartment,
-			firstCompartmentLetters, secondCompartmentLetters, priorities);
+		if (patternCounter == 1)
+		{
+			firstBag = iss.str();
+		}
+		else if (patternCounter == 2)
+		{
+			secondBag = iss.str();
+		}
+		else if (patternCounter == 3)
+		{
+			thirdBag = iss.str();
 
-		firstCompartmentLetters.clear();
-		secondCompartmentLetters.clear();
+			prioritySum+=calculateDay3(firstBag, secondBag,thirdBag,
+				uniqueMap, priorities);
+
+			patternCounter = 0;
+		}
 	}
 
 	std::cout << "Total sum: " << prioritySum << "\n";
