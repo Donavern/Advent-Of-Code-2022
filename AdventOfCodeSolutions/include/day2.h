@@ -12,9 +12,9 @@ enum class day2Info
 	win = 6
 };
 
-int calculateDay2(char theirs, char mine)
+int calculateDay2(char theirs, char resultState)
 {
-	int theirValue{}, myValue{}, resultState{};
+	int theirValue{}, myValue{};
 	
 	switch (theirs)
 	{
@@ -29,35 +29,26 @@ int calculateDay2(char theirs, char mine)
 		break;
 	}
 
-	switch (mine)
+	if (resultState == 'X') //Need to lose
 	{
-	case 'X':
-		myValue = static_cast<int>(day2Info::Xrock);
-		break;
-	case 'Y':
-		myValue = static_cast<int>(day2Info::Ypaper);
-		break;
-	case 'Z':
-		myValue = static_cast<int>(day2Info::Zscissors);
-		break;
+		if (theirValue == static_cast<int>(day2Info::Arock))
+			myValue = theirValue + 2 + static_cast<int>(day2Info::lose);
+		else
+			myValue = theirValue - 1 + static_cast<int>(day2Info::lose);
+	}
+	else if (resultState == 'Y') //Need to draw
+	{
+		myValue = theirValue + static_cast<int>(day2Info::draw);
+	}
+	else //Need to win
+	{
+		if (theirValue == static_cast<int>(day2Info::Cscissors))
+			myValue = theirValue - 2 + static_cast<int>(day2Info::win);
+		else
+			myValue = theirValue + 1 + static_cast<int>(day2Info::win);
 	}
 
-	int difference = myValue - theirValue;
-
-	if (difference ==0) //Draw
-	{
-		resultState = static_cast<int>(day2Info::draw);
-	}
-	else if (difference == 1 || difference == -2)
-	{
-		resultState = static_cast<int>(day2Info::win);
-	}
-	else
-	{
-		resultState = static_cast<int>(day2Info::lose);
-	}
-
-	return myValue + resultState;
+	return myValue;
 }
 
 void day2()
