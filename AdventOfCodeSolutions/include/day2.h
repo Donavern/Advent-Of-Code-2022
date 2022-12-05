@@ -53,14 +53,17 @@ int calculateDay2(char theirs, char resultState)
 
 void day2()
 {
+	//Open file
 	std::fstream input;
 	input.open("data/day2.txt", std::fstream::in);
 
 	assertm(input.is_open() == true, "Failed to open file");
 
+	//Setup
 	int totalScore{};
 	char theirPick{}, myPick{};
 
+	//Main Code
 	while (input >> theirPick >> myPick)
 	{
 		totalScore += calculateDay2(theirPick,myPick);

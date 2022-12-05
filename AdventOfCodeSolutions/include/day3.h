@@ -62,7 +62,6 @@ void day3()
 		priorities.emplace(std::pair<char, int>(c, ++priorityValue));
 	}
 
-	//Init data
 	std::string line{};
 	std::string firstBag{}, secondBag{}, thirdBag{};
 	std::map<char,int> uniqueMap;

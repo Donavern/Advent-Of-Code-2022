@@ -29,10 +29,98 @@
     <ClInclude Include="include\day3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\day4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day6.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day7.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day8.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day9.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day10.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day11.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day12.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day13.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day14.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day15.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day16.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day17.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day18.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day19.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day20.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day21.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day22.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day23.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day24.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\day25.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\day2.txt" />
     <Text Include="data\day1.txt" />
     <Text Include="data\day3.txt" />
+    <Text Include="data\day4.txt" />
+    <Text Include="data\day5.txt" />
+    <Text Include="data\day6.txt" />
+    <Text Include="data\day7.txt" />
+    <Text Include="data\day8.txt" />
+    <Text Include="data\day9.txt" />
+    <Text Include="data\day10.txt" />
+    <Text Include="data\day11.txt" />
+    <Text Include="data\day12.txt" />
+    <Text Include="data\day13.txt" />
+    <Text Include="data\day14.txt" />
+    <Text Include="data\day15.txt" />
+    <Text Include="data\day16.txt" />
+    <Text Include="data\day17.txt" />
+    <Text Include="data\day18.txt" />
+    <Text Include="data\day19.txt" />
+    <Text Include="data\day20.txt" />
+    <Text Include="data\day21.txt" />
+    <Text Include="data\day22.txt" />
+    <Text Include="data\day23.txt" />
+    <Text Include="data\day24.txt" />
+    <Text Include="data\day25.txt" />
   </ItemGroup>
 </Project>

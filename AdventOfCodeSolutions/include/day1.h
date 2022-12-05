@@ -24,15 +24,18 @@ void calculateDay1(std::vector<int>& currentElfBag, std::vector<int>& maxTotalCa
 
 void day1()
 {
+	//Open file
 	std::fstream input;
 	input.open("data/day1.txt", std::fstream::in);
 
 	assertm(input.is_open() == true,"Failed to open file");
 	
+	//Setup
 	std::vector<int> currentElfBag(100);
 	std::vector<int> maxTotalCalories(3);
 	std::string line{};
 
+	//Main code
 	while (std::getline(input,line))
 	{
 		std::istringstream iss(line);
