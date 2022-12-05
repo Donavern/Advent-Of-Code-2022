@@ -128,5 +128,5 @@ void day5()
 	{
 		result += stacks[s].top();
 	}
-	std::cout << "Top of Range: " << result << "\n";
+	std::cout << "Top of Stacks: " << result << "\n";
 }

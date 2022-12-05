@@ -1,6 +1,8 @@
+
+
+#pragma stl includes
 #include <cassert>
 #define assertm(exp, msg) assert(((void)msg, exp))
-
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -10,7 +12,9 @@
 #include <map>
 #include <set>
 #include <stack>
+#pragma endregion
 
+#pragma region code includes
 #include "../include/day1.h"
 #include "../include/day2.h"
 #include "../include/day3.h"
@@ -36,6 +40,7 @@
 #include "../include/day23.h"
 #include "../include/day24.h"
 #include "../include/day25.h"
+#pragma endregion
 
 int main()
 {
