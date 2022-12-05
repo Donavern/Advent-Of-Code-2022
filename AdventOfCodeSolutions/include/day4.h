@@ -4,12 +4,8 @@ enum class day4Info
 
 int calculateDay4(int firstRangeLeft, int firstRangeRight, int secondRangeLeft, int secondRangeRight)
 {
-	if ((firstRangeLeft >= secondRangeLeft && firstRangeRight <= secondRangeRight) ||
-		(secondRangeLeft >= firstRangeLeft && secondRangeRight <= firstRangeRight))
-	{
-		return 1;
-	}
-	return 0;
+	return ((firstRangeLeft <= secondRangeLeft && firstRangeRight >= secondRangeLeft) ||
+		(secondRangeLeft <= firstRangeLeft && secondRangeRight >= firstRangeLeft));
 }
 
 void day4()
