@@ -4,10 +4,17 @@ enum class day5Info
 
 void calculateDay5(std::vector<std::stack<char>>& stacks,int count,int from, int to)
 {
+	std::vector<char> tempStorage;
+
 	for (int times{}; times < count; ++times)
 	{
-		stacks[to - 1].push(stacks[from - 1].top());
+		tempStorage.emplace_back(stacks[from - 1].top());
 		stacks[from - 1].pop();
+	}
+
+	for (int itemCounter{ static_cast<int>(tempStorage.size()) - 1 }; itemCounter >= 0; --itemCounter)
+	{
+		stacks[to - 1].push(tempStorage[itemCounter]);
 	}
 }
 
