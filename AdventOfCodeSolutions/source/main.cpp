@@ -1,8 +1,7 @@
-
-
-#pragma stl includes
 #include <cassert>
 #define assertm(exp, msg) assert(((void)msg, exp))
+
+#pragma region stl includes
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -45,5 +44,5 @@
 int main()
 {
 	//Can change to day#() with # being 1 ~ 25
-	day5();
+	day6();
 }
