@@ -8,21 +8,19 @@ class Entry
 {
 public:
 	Entry() {};
-	Entry(std::string s, float f) { dirName=s; dirDepth=f; type = EntryType::directory; };
-	Entry(std::string s, int i, float f) { fileName=s; fileSize=i; fileDepth=f; type = EntryType::file; };
+	Entry(std::string s) { dirName=s; type = EntryType::directory; };
+	Entry(std::string s, int i) { fileName=s; fileSize=i; type = EntryType::file; };
 
 	EntryType type;
 
 	//file
 	std::string fileName{};
 	int fileSize{};
-	float fileDepth{};
 
 	//Directory
 	std::vector<Entry> files;
 	std::string dirName{};
-	float dirDepth{};
-	float currentFileDepth{};
+	float directoryTotalSize{};
 };
 
 //Start from system, find the dir
@@ -35,7 +33,10 @@ Entry* findDirectory(Entry& currentEntry, std::string& name)
 
 	for (Entry& e : currentEntry.files)
 	{
-		return findDirectory(e, name);
+		Entry* tempEntry = findDirectory(e, name);
+
+		if (tempEntry)
+			return tempEntry;
 	}
 
 	return nullptr;
@@ -56,8 +57,13 @@ Entry* findDirectoryBefore(Entry& currentEntry, std::string& name)
 		{
 			return &currentEntry;
 		}
+	}
 
-		return findDirectoryBefore(e, name);
+	for (Entry& e : currentEntry.files)
+	{
+		Entry* tempEntry = findDirectoryBefore(e, name);
+		if (tempEntry)
+			return tempEntry;
 	}
 
 	return nullptr;
@@ -72,7 +78,7 @@ void printEverything(Entry& currentEntry, int currentLevel)
 
 	if (currentEntry.type == EntryType::directory)
 	{
-		std::cout << "-" << currentEntry.dirName << " (dir)" << "\n";
+		std::cout << "-" << currentEntry.dirName << " (dir, size=" << currentEntry.directoryTotalSize << ")" << "\n";
 	}
 	else
 	{
@@ -85,13 +91,18 @@ void printEverything(Entry& currentEntry, int currentLevel)
 	}
 }
 
-void findFile()
+void calculateDay7Part1(Entry& entry,int& sum, int givenMaxValue)
 {
+	if (entry.type == EntryType::directory)
+	{
+		if(entry.directoryTotalSize<= givenMaxValue)
+			sum += static_cast<int>(entry.directoryTotalSize);
+	}
 
-}
-
-void calculateDay7()
-{
+	for (size_t counter{}; counter < entry.files.size(); ++counter)
+	{
+		calculateDay7Part1(entry.files[counter], sum, givenMaxValue);
+	}
 }
 
 void day7()
@@ -106,7 +117,7 @@ void day7()
 	std::string line{};
 	float currentDirDepth{};
 
-	Entry system("/",0.0f);
+	Entry system("/");
 	Entry* currentDir{ &system };
 
 	//Main code
@@ -147,7 +158,7 @@ void day7()
 			//Just incase
 			if (currentDir != nullptr)
 			{
-				currentDir->files.emplace_back(Entry(dirToAdd, currentDirDepth));
+				currentDir->files.emplace_back(Entry(dirToAdd));
 			}
 		}
 		else if (line.find_first_of("0123456789") != std::string::npos) //current dir contains this file
@@ -158,11 +169,24 @@ void day7()
 
 			if (currentDir != nullptr)
 			{
-				currentDir->currentFileDepth += 0.01f;
-				currentDir->files.emplace_back(Entry(name,std::stoi(size), currentDir->currentFileDepth));
+				currentDir->files.emplace_back(Entry(name,std::stoi(size)));
+				currentDir->directoryTotalSize += std::stoi(size);
+
+				Entry* tempDir{ currentDir };
+				while (tempDir != &system)
+				{
+					tempDir = findDirectoryBefore(system, tempDir->dirName);
+					if (tempDir == nullptr)
+						break;
+					tempDir->directoryTotalSize += std::stoi(size);
+				}
 			}
 		}
 	}
 	
 	printEverything(system, 0);
+
+	int totalSum{};
+	calculateDay7Part1(system, totalSum, 100000);
+	std::cout << "Total Sum Part 1: " << totalSum << "\n";
 }
