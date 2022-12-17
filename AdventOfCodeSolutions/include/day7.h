@@ -21,6 +21,8 @@ public:
 	std::vector<Entry> files;
 	std::string dirName{};
 	float directoryTotalSize{};
+
+	Entry* prevDir{};
 };
 
 //Start from system, find the dir
@@ -35,33 +37,6 @@ Entry* findDirectory(Entry& currentEntry, std::string& name)
 	{
 		Entry* tempEntry = findDirectory(e, name);
 
-		if (tempEntry)
-			return tempEntry;
-	}
-
-	return nullptr;
-}
-
-//Start from system, find the dir before given dir
-Entry* findDirectoryBefore(Entry& currentEntry, std::string& name)
-{
-	//This means we want to dir to root
-	if (std::strcmp(currentEntry.dirName.c_str(), name.c_str()) == 0)
-	{
-		return &currentEntry;
-	}
-
-	for (Entry& e : currentEntry.files)
-	{
-		if (std::strcmp(e.dirName.c_str(), name.c_str()) == 0)
-		{
-			return &currentEntry;
-		}
-	}
-
-	for (Entry& e : currentEntry.files)
-	{
-		Entry* tempEntry = findDirectoryBefore(e, name);
 		if (tempEntry)
 			return tempEntry;
 	}
@@ -125,7 +100,8 @@ void day7()
 	{
 		if (line.find("$ cd ..") != std::string::npos)	//Move out 1 level
 		{
-			currentDir = findDirectoryBefore(system, currentDir->dirName);
+			if(currentDir != &system)
+				currentDir = currentDir->prevDir;
 		}
 		else if (line.find("$ cd /") != std::string::npos) //Switch to outermost dir
 		{
@@ -158,7 +134,9 @@ void day7()
 			//Just incase
 			if (currentDir != nullptr)
 			{
-				currentDir->files.emplace_back(Entry(dirToAdd));
+				Entry newEntry(dirToAdd);
+				newEntry.prevDir = currentDir;
+				currentDir->files.emplace_back(newEntry);
 			}
 		}
 		else if (line.find_first_of("0123456789") != std::string::npos) //current dir contains this file
@@ -172,13 +150,11 @@ void day7()
 				currentDir->files.emplace_back(Entry(name,std::stoi(size)));
 				currentDir->directoryTotalSize += std::stoi(size);
 
-				Entry* tempDir{ currentDir };
-				while (tempDir != &system)
+				Entry* tempDir{ currentDir->prevDir };
+				while (tempDir != nullptr)
 				{
-					tempDir = findDirectoryBefore(system, tempDir->dirName);
-					if (tempDir == nullptr)
-						break;
 					tempDir->directoryTotalSize += std::stoi(size);
+					tempDir = tempDir->prevDir;
 				}
 			}
 		}
