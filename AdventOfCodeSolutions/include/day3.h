@@ -1,7 +1,3 @@
-enum class day3Info 
-{
-};
-
 int calculateDay3(std::string& first,std::string& second, std::string& third,
 	std::map<char,int>& uniqueMap, std::map<char,int>& priorities)
 {

@@ -1,7 +1,3 @@
-enum class day5Info
-{
-};
-
 void calculateDay5(std::vector<std::stack<char>>& stacks,int count,int from, int to)
 {
 	std::vector<char> tempStorage;

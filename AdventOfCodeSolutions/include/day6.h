@@ -1,11 +1,3 @@
-enum class day6Info
-{
-};
-
-void calculateDay6()
-{
-}
-
 void day6()
 {
 	//Open file

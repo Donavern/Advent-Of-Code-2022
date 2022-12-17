@@ -1,7 +1,3 @@
-enum class day4Info
-{
-};
-
 int calculateDay4(int firstRangeLeft, int firstRangeRight, int secondRangeLeft, int secondRangeRight)
 {
 	return ((firstRangeLeft <= secondRangeLeft && firstRangeRight >= secondRangeLeft) ||

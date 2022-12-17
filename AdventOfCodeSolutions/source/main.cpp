@@ -11,6 +11,7 @@
 #include <map>
 #include <set>
 #include <stack>
+#include <list>
 #pragma endregion
 
 #pragma region code includes
@@ -44,5 +45,5 @@
 int main()
 {
 	//Can change to day#() with # being 1 ~ 25
-	day6();
+	day7();
 }

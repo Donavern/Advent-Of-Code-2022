@@ -1,6 +1,94 @@
-enum class day7Info
+enum class EntryType
 {
+	file = 0,
+	directory = 1
 };
+
+class Entry
+{
+public:
+	Entry() {};
+	Entry(std::string s, float f) { dirName=s; dirDepth=f; type = EntryType::directory; };
+	Entry(std::string s, int i, float f) { fileName=s; fileSize=i; fileDepth=f; type = EntryType::file; };
+
+	EntryType type;
+
+	//file
+	std::string fileName{};
+	int fileSize{};
+	float fileDepth{};
+
+	//Directory
+	std::vector<Entry> files;
+	std::string dirName{};
+	float dirDepth{};
+	float currentFileDepth{};
+};
+
+//Start from system, find the dir
+Entry* findDirectory(Entry& currentEntry, std::string& name)
+{
+	if (std::strcmp(currentEntry.dirName.c_str(), name.c_str()) == 0)
+	{
+		return &currentEntry;
+	}
+
+	for (Entry& e : currentEntry.files)
+	{
+		return findDirectory(e, name);
+	}
+
+	return nullptr;
+}
+
+//Start from system, find the dir before given dir
+Entry* findDirectoryBefore(Entry& currentEntry, std::string& name)
+{
+	//This means we want to dir to root
+	if (std::strcmp(currentEntry.dirName.c_str(), name.c_str()) == 0)
+	{
+		return &currentEntry;
+	}
+
+	for (Entry& e : currentEntry.files)
+	{
+		if (std::strcmp(e.dirName.c_str(), name.c_str()) == 0)
+		{
+			return &currentEntry;
+		}
+
+		return findDirectoryBefore(e, name);
+	}
+
+	return nullptr;
+}
+
+void printEverything(Entry& currentEntry, int currentLevel)
+{
+	for (int levelCounter{}; levelCounter < currentLevel; ++levelCounter)
+	{
+		std::cout << "\t";
+	}
+
+	if (currentEntry.type == EntryType::directory)
+	{
+		std::cout << "-" << currentEntry.dirName << " (dir)" << "\n";
+	}
+	else
+	{
+		std::cout << "-" << currentEntry.fileName << " (file, size=" << currentEntry.fileSize << ")" << "\n";
+	}
+
+	for (size_t counter{}; counter < currentEntry.files.size(); ++counter)
+	{
+		printEverything(currentEntry.files[counter], currentLevel+1);
+	}
+}
+
+void findFile()
+{
+
+}
 
 void calculateDay7()
 {
@@ -16,10 +104,65 @@ void day7()
 
 	//Setup
 	std::string line{};
+	float currentDirDepth{};
+
+	Entry system("/",0.0f);
+	Entry* currentDir{ &system };
 
 	//Main code
 	while (std::getline(input, line))
 	{
+		if (line.find("$ cd ..") != std::string::npos)	//Move out 1 level
+		{
+			currentDir = findDirectoryBefore(system, currentDir->dirName);
+		}
+		else if (line.find("$ cd /") != std::string::npos) //Switch to outermost dir
+		{
+			currentDir = &system;
+		}
+		else if (line.find("$ cd ") != std::string::npos) //Move in 1 level
+		{
+			std::string dirToMoveTo = line.substr(line.find("$ cd ") + 5);
+
+			//Find dir to search in
+			Entry* foundDir = findDirectory(system, currentDir->dirName);
+
+			//Find dir to move to within this dir
+			for (size_t i{}; i < foundDir->files.size(); ++i)
+			{
+				if (std::strcmp(foundDir->files[i].dirName.c_str(), dirToMoveTo.c_str()) == 0)
+				{
+					currentDir = &foundDir->files[i];
+					break;
+				}
+			}
+		}
+		else if (line.find("$ ls") != std::string::npos) //Print out files/dir
+		{
+		}
+		else if (line.find("dir ") != std::string::npos) //current dir contains this folder
+		{
+			std::string dirToAdd = line.substr(line.find("dir ") + 4);
+
+			//Just incase
+			if (currentDir != nullptr)
+			{
+				currentDir->files.emplace_back(Entry(dirToAdd, currentDirDepth));
+			}
+		}
+		else if (line.find_first_of("0123456789") != std::string::npos) //current dir contains this file
+		{
+			std::string size{}, name{};
+			size = line.substr(0, line.find_first_of(" "));
+			name = line.substr(line.find_first_of(" ")+1);
+
+			if (currentDir != nullptr)
+			{
+				currentDir->currentFileDepth += 0.01f;
+				currentDir->files.emplace_back(Entry(name,std::stoi(size), currentDir->currentFileDepth));
+			}
+		}
 	}
-	std::cout << ": " << "" << "\n";
+	
+	printEverything(system, 0);
 }
