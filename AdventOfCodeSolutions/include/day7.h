@@ -61,6 +61,22 @@ void calculateDay7Part1(Entry& entry,int& sum, int givenMaxValue)
 	}
 }
 
+void calculateDay7Part2(Entry& entry,int spaceMinToBeFound,Entry& currentDir)
+{
+	if (entry.type == EntryType::directory)
+	{
+		if (entry.directoryTotalSize >= spaceMinToBeFound && entry.directoryTotalSize < currentDir.directoryTotalSize)
+		{
+			currentDir = entry;
+		}
+	}
+
+	for (size_t counter{}; counter < entry.files.size(); ++counter)
+	{
+		calculateDay7Part2(entry.files[counter], spaceMinToBeFound, currentDir);
+	}
+}
+
 void day7()
 {
 	//Open file
@@ -143,4 +159,9 @@ void day7()
 	int totalSum{};
 	calculateDay7Part1(system, totalSum, 100000);
 	std::cout << "Total Sum Part 1: " << totalSum << "\n";
+
+	Entry chosenDir{};
+	chosenDir.directoryTotalSize = 30000000.0f;
+	calculateDay7Part2(system, 30000000 - (70000000 - static_cast<int>(system.directoryTotalSize)), chosenDir);
+	std::cout << "Size of chosen dir Part 2: " << static_cast<int>(chosenDir.directoryTotalSize) << "\n";
 }
