@@ -25,25 +25,6 @@ public:
 	Entry* prevDir{};
 };
 
-//Start from system, find the dir
-Entry* findDirectory(Entry& currentEntry, std::string& name)
-{
-	if (std::strcmp(currentEntry.dirName.c_str(), name.c_str()) == 0)
-	{
-		return &currentEntry;
-	}
-
-	for (Entry& e : currentEntry.files)
-	{
-		Entry* tempEntry = findDirectory(e, name);
-
-		if (tempEntry)
-			return tempEntry;
-	}
-
-	return nullptr;
-}
-
 void printEverything(Entry& currentEntry, int currentLevel)
 {
 	for (int levelCounter{}; levelCounter < currentLevel; ++levelCounter)
@@ -111,15 +92,12 @@ void day7()
 		{
 			std::string dirToMoveTo = line.substr(line.find("$ cd ") + 5);
 
-			//Find dir to search in
-			Entry* foundDir = findDirectory(system, currentDir->dirName);
-
 			//Find dir to move to within this dir
-			for (size_t i{}; i < foundDir->files.size(); ++i)
+			for (size_t i{}; i < currentDir->files.size(); ++i)
 			{
-				if (std::strcmp(foundDir->files[i].dirName.c_str(), dirToMoveTo.c_str()) == 0)
+				if (std::strcmp(currentDir->files[i].dirName.c_str(), dirToMoveTo.c_str()) == 0)
 				{
-					currentDir = &foundDir->files[i];
+					currentDir = &currentDir->files[i];
 					break;
 				}
 			}
