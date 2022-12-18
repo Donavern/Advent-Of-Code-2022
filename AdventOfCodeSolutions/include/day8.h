@@ -222,4 +222,6 @@ void day8()
 	//displayData(data, width, height);
 	std::cout << "Visible (Part 1): " << calculateDay8Part1(data,width,height) << "\n";
 	std::cout << "Max scene score (Part 2): " << calculateDay8Part2(data, width, height) << "\n";
+
+	delete [] data;
 }

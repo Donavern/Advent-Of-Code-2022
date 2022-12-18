@@ -48,5 +48,5 @@
 int main()
 {
 	//Can change to day#() with # being 1 ~ 25
-	day8();
+	day9();
 }
