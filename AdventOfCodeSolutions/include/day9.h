@@ -83,6 +83,6 @@ void day9()
 		}
 	}
 
-	std::cout << "Part 1: " << tailLocations.size()+1<< "\n";
+	std::cout << "Part 1: " << tailLocations.size()<< "\n";
 	std::cout << "Part 2: " << "" << "\n";
 }
