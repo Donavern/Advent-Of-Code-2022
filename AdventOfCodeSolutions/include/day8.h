@@ -86,6 +86,67 @@ int calculateDay8Part1(int* data, int width, int height)
 	return withinNumberCount ;
 }
 
+int calculateDay8Part2(int* data, int width, int height)
+{
+	int maxScore{}, topScore{}, leftScore{}, bottomScore{}, rightScore{};
+
+	for (int y{}; y < height; ++y)
+	{
+		for (int x{}; x < width; ++x)
+		{
+			//Start from left right up down
+			int innerY{ y }, innerX{ x };
+
+			topScore = 0; leftScore = 0; bottomScore = 0; rightScore = 0;
+
+			while (--innerX >= 0) //Check left
+			{
+				++leftScore;
+				if (data[y * width + innerX] >= data[y * width + x])
+				{
+					break;
+				}
+			}
+
+			while (--innerY >= 0) //Check top
+			{
+				++topScore;
+				if (data[innerY * width + x] >= data[y * width + x])
+				{
+					break;
+				}
+			}
+
+			innerY = y; innerX = x;
+
+			while (++innerX < width) //Check right
+			{
+				++rightScore;
+				if (data[y * width + innerX] >= data[y * width + x])
+				{
+					break;
+				}
+			}
+
+			while (++innerY < height) //Check bottom
+			{
+				++bottomScore;
+
+				if (data[innerY * width + x] >= data[y * width + x])
+				{
+					break;
+				}
+			}
+
+			if (topScore * bottomScore * leftScore * rightScore > maxScore)
+			{
+				maxScore = topScore * bottomScore * leftScore * rightScore;
+			}
+		}
+	}
+	return maxScore;
+}
+
 void displayData(int* data, int width, int height)
 {
 	for (int y{}; y < height; ++y)
@@ -160,4 +221,5 @@ void day8()
 
 	//displayData(data, width, height);
 	std::cout << "Visible (Part 1): " << calculateDay8Part1(data,width,height) << "\n";
+	std::cout << "Max scene score (Part 2): " << calculateDay8Part2(data, width, height) << "\n";
 }
