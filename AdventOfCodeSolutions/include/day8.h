@@ -203,7 +203,7 @@ void day8()
 		//Find size
 		if (firstLine == false)
 		{
-			width = line.length();
+			width = static_cast<int>(line.length());
 			firstLine = true;
 		}
 

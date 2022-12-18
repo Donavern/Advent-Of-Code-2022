@@ -87,8 +87,6 @@ void day7()
 
 	//Setup
 	std::string line{};
-	float currentDirDepth{};
-
 	Entry system("/");
 	Entry* currentDir{ &system };
 
